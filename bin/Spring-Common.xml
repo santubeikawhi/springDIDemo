@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean id="customerHelper" class="com.jl.spring.helper.PersonHelper">
+		<property name="customer">
+			<ref bean="womanCustomer"></ref>
+		</property>
+		<!-- 配置Bean在Spring配置文件，并引用Bean “CsvOutputGenerator” 到 “OutputHelper”，通过property 和 ref 标签。 -->
+		<!-- 通过setter方法依赖注入 -->
+		<property name="personDao">
+			<ref bean="studentDaoImpl"></ref> 
+		</property>
+		<constructor-arg>
+			<ref bean="customerDaoImpl" />
+		</constructor-arg>
+	</bean>
+	<bean id="customer" class="com.jl.spring.bean.Customer">
+		<property name="name" value="Ray"></property>
+		<property name="age" value="12"></property>
+		<property name="sex" value="boy"></property>
+	</bean>
+	<!-- spring 依赖注入，构造方法注入类型歧义解决方法 -->
+	<bean id="womanCustomer" class="com.jl.spring.bean.Customer" >
+		<constructor-arg type="java.lang.String">
+			<value>Nicole</value>
+		</constructor-arg>
+		<constructor-arg type="java.lang.String">
+			<value>girl</value>
+		</constructor-arg>
+		<constructor-arg type="int">
+			<value>14</value>
+		</constructor-arg>
+	</bean>
+	<!-- 实现的bean -->
+	<bean id="customerDaoImpl" class="com.jl.spring.dao.CustomerDaoImpl"/>
+	<!-- 实现的bean -->
+	<bean id="studentDaoImpl" class="com.jl.spring.dao.StudentDaoImpl"/>
+</beans>
